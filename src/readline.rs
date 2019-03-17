@@ -34,7 +34,7 @@ extern "C" {
     fn readline(prompt: *const ::std::os::raw::c_char) -> *mut ::std::os::raw::c_char;
 }
 
-pub fn readline_rl(prompt: &str) -> Option<String> {
+pub fn readline_rl(prompt: &str) -> Option<&'static str> {
     unsafe {
         let prompt = match CString::new(prompt) {
             Ok(prompt) => prompt,
@@ -47,7 +47,7 @@ pub fn readline_rl(prompt: &str) -> Option<String> {
         if input.is_null() {
             None
         } else {
-            Some(CStr::from_ptr(input).to_string_lossy().into_owned())
+            CStr::from_ptr(input).to_str().ok()
         }
     }
 }

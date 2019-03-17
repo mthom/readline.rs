@@ -1,6 +1,6 @@
 [package]
 name = "readline-rs"
-version = "0.1.1"
+version = "0.1.2"
 authors = ["Mark Thom <markjordanthom@gmail.com>"]
 edition = "2018"
 links = "readline"
