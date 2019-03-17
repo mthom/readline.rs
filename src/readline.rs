@@ -20,10 +20,10 @@ extern "C" {
     static mut rl_line_buffer: *mut ::std::os::raw::c_char;
 }
 
-pub fn rl_line_buffer_as_string() -> Option<String> {
+pub fn rl_line_buffer_as_str() -> Option<&'static str> {
     unsafe {
         if !rl_line_buffer.is_null() {
-            Some(CStr::from_ptr(rl_line_buffer).to_string_lossy().into_owned())
+            CStr::from_ptr(rl_line_buffer).to_str().ok()
         } else {
             None
         }
