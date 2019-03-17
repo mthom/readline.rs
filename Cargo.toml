@@ -5,3 +5,5 @@ authors = ["Mark Thom <markjordanthom@gmail.com>"]
 edition = "2018"
 links = "readline"
 build = "build.rs"
+description = "A minimal readline library wrapper for the Rust programming language."
+license = "BSD-3-Clause"
