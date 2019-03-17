@@ -94,6 +94,14 @@ pub type rl_command_func_t =
         arg2: ::std::os::raw::c_int,
     ) -> ::std::os::raw::c_int;
 
+#[allow(non_camel_case_types)]
+pub type rl_hook_func_t =
+    unsafe extern "C" fn() -> ::std::os::raw::c_int;
+
+extern "C" {
+    pub static mut rl_startup_hook: rl_hook_func_t;
+}
+
 extern "C" {
     fn rl_bind_key(
         arg1: ::std::os::raw::c_int,
