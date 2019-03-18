@@ -1,6 +1,6 @@
 [package]
 name = "readline_rs_compat"
-version = "0.1.3"
+version = "0.1.4"
 authors = ["Mark Thom <markjordanthom@gmail.com>"]
 links = "readline"
 build = "build.rs"
