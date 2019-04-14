@@ -1,8 +1,11 @@
 [package]
 name = "readline_rs_compat"
-version = "0.1.7"
+version = "0.1.8"
 authors = ["Mark Thom <markjordanthom@gmail.com>"]
 links = "readline"
 build = "build.rs"
 description = "A minimal readline library wrapper for the Rust programming language."
 license = "BSD-3-Clause"
+
+[dependencies]
+libc = "0.2.51"

@@ -1,3 +1,7 @@
+extern crate libc;
+
+use readline::libc::fileno;
+
 use std::ffi::{CString, CStr};
 
 extern "C" {
@@ -20,6 +24,11 @@ extern "C" {
     static mut rl_line_buffer: *mut ::std::os::raw::c_char;
 }
 
+extern "C" {
+    #[link_name = "\u{1}rl_instream"]
+    static mut rl_instream: *mut libc::FILE;
+}
+
 pub fn rl_line_buffer_as_str() -> Option<&'static str> {
     unsafe {
         if !rl_line_buffer.is_null() {
@@ -31,7 +40,28 @@ pub fn rl_line_buffer_as_str() -> Option<&'static str> {
 }
 
 extern "C" {
+    fn rl_read_key() -> ::std::os::raw::c_int;
+}
+
+pub fn read_key_rl() -> char {
+    unsafe {
+        (rl_read_key() as u8) as char
+    }
+}
+
+extern "C" {
     fn readline(prompt: *const ::std::os::raw::c_char) -> *mut ::std::os::raw::c_char;
+}
+
+extern "C" {
+    fn rl_copy_text(start: ::std::os::raw::c_int, end: ::std::os::raw::c_int) -> *mut ::std::os::raw::c_char;
+}
+
+pub fn copy_text_rl(start: i32, end: i32) -> Option<String> {
+    unsafe {        
+        CStr::from_ptr(rl_copy_text(start, end)).to_str()
+            .ok().map(|string_buf| string_buf.to_string())
+    }
 }
 
 pub fn readline_rl(prompt: &str) -> Option<&'static str> {
@@ -112,6 +142,18 @@ extern "C" {
 pub fn bind_key_rl(key: i32, f: rl_command_func_t) -> i32 {
     unsafe {
         rl_bind_key(key, f) as i32
+    }
+}
+
+extern "C" {
+    fn rl_unbind_key(
+        arg1: ::std::os::raw::c_int
+    ) -> ::std::os::raw::c_int;
+}
+
+pub fn unbind_key_rl(key: i32) -> i32 {
+    unsafe {
+        rl_unbind_key(key) as i32
     }
 }
 
